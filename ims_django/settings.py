@@ -4,9 +4,9 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Usalama: Tumia environment variables kwa siri
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'changeme')
-DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
+SECRET_KEY = 'django-insecure-rehm$-g0&_c-nzb54b7xp-pcnehad63vd4b-4zlwh=o839g1f@'
+DEBUG = False
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -107,6 +107,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login'
 
 ID_ENCRYPTION_KEY = b'UdhnfelTxqj3q6BbPe7H86sfQnboSBzb0irm2atoFUw='
+
 
 # Jazzmin Settings
 JAZZMIN_SETTINGS = {

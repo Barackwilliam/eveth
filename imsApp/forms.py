@@ -123,22 +123,19 @@ class SaveCategory(forms.ModelForm):
 
 
 
-
-
-
-
-
 from django import forms
 from .models import Product
 
 class SaveProduct(forms.ModelForm):
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label="Select Category")
+
     name = forms.CharField(max_length=250)
     description = forms.CharField(widget=forms.Textarea)  # Tumia widget kwa textarea
     status = forms.ChoiceField(choices=[('1', 'Active'), ('2', 'Inactive')])
 
     class Meta:
         model = Product
-        fields = ('code', 'name', 'description', 'status','s_price', 'b_price')
+        fields = ('code', 'name', 'description', 'status', 'selling_price', 'buying_price', 'category')
 
     def clean_code(self):
         id = self.instance.id if self.instance.id else 0
@@ -227,5 +224,12 @@ class SaveInvoiceItem(forms.ModelForm):
     
 
 
+#payroll
 
+from django import forms
+from .models import Payroll
 
+class PayrollForm(forms.ModelForm):
+    class Meta:
+        model = Payroll
+        fields = '__all__'

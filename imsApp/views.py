@@ -13,9 +13,32 @@ from imsApp.models import Category, Product, Stock, Invoice, Invoice_Item
 from cryptography.fernet import Fernet
 from django.conf import settings
 import base64
-from .models import Debt
+from .models import Debt,Customer
 from .models import Employee
 from .models import Expenditure
+
+#payroll
+from .models import Payroll
+from .forms import PayrollForm
+
+# Kuingiza payroll manually
+def add_payroll(request):
+    if request.method == "POST":
+        form = PayrollForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('payroll_list')  # Redirect baada ya kuokoa payroll
+    else:
+        form = PayrollForm()
+    return render(request, 'payroll_form.html', {'form': form})
+
+
+
+# Kuonyesha payroll zote
+def payroll_list(request):
+    payrolls = Payroll.objects.all()
+    return render(request, "payroll_list.html", {"payrolls": payrolls})
+
 
 def expenditure_list(request):
     expenses = Expenditure.objects.all()
@@ -237,11 +260,28 @@ def my_debts(request):
     return render(request, 'debt_list.html', {'debts': debts})
 
 
+# @login_required
+# def manage_product(request, pk=None):
+   
+#     # context['page_title'] = "Manage Product"
+#     context = {'page_title': "Manage Product", 'categories': Category.objects.all()}
+
+    # if not pk is None:
+    #     product = Product.objects.get(id = pk)
+    #     context['product'] = product
+    # else:
+    #     context['product'] = {}
+
+    # return render(request, 'manage_product.html', context)
+
+
+
 @login_required
 def manage_product(request, pk=None):
-    context['page_title'] = "Manage Product"
-    if not pk is None:
-        product = Product.objects.get(id = pk)
+    context = {'page_title': "Manage Product", 'categories': Category.objects.all()}
+    
+    if pk:
+        product = Product.objects.get(id=pk)
         context['product'] = product
     else:
         context['product'] = {}
@@ -369,7 +409,7 @@ def get_product(request,pk = None):
         product = Product.objects.get(id = pk)
         resp['data']['product'] = str(product.code + " - " + product.name)
         resp['data']['id'] = product.id
-        resp['data']['price'] = product.s_price
+        resp['data']['price'] = product.selling_price
         resp['status'] = 'success'
     
     return HttpResponse(json.dumps(resp),content_type="application/json")
@@ -438,3 +478,9 @@ def delete_invoice(request):
     
     return HttpResponse(json.dumps(resp), content_type="application/json")
     
+
+
+
+def customer(request):
+    customers = Customer.objects.all()
+    return render(request,'customer.html',{'customers':customers})

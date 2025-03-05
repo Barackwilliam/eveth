@@ -1,19 +1,23 @@
+
 {% extends 'base.html' %} {% load humanize %} {% block pageContent %}
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="card card-default rounded-0 shadow ">
         <div class="card-header bg-primary">
             <div class="d-flex w-100 align-items-center justify-content-between">
-                <h4 class="card-title fw-bold text-light">Transaction Records</h4>
+                <h4 class="card-title fw-bold text-light">Customer Details</h4>
+                <div class="tools">
+                    <!-- <button type="button" class="btn btn-primary rounded-0 bg-gradient btn-sm" id='add_new'><i class="fa fa-plus"></i> Add New</button> -->
+                </div>
             </div>
         </div>
         <div class="card-body" style="background-color: yellow;">
             <div class="container-fluid">
-                <table class="table table-bordered" id="invoice-list">
+                <table class="table table-bordered" id="product-list">
                     <colgroup>
                         <col width="5%">
+                        <col width="15%">
                         <col width="20%">
-                        <col width="20%">
-                        <col width="20%">
+                        <col width="25%">
                         <col width="10%">
                         <col width="10%">
                         <col width="15%">
@@ -21,32 +25,37 @@
                     <thead>
                         <tr class="bg-gradient bg-primary bg-opacity-50 text-light">
                             <th class="px-2 py-2 text-center">#</th>
-                            <th class="px-2 py-2 text-center">Date/Time</th>
-                            <th class="px-2 py-2 text-center">Transaction Code</th>
-                            <th class="px-2 py-2 text-center">Customer</th>
-                            <th class="px-2 py-2 text-center">Total Item</th>
-                            <th class="px-2 py-2 text-center">Total Amount</th>
-                            <th class="px-2 py-2 text-center">Action</th>
+                            <th class="px-2 py-2 text-center">Full Name</t>
+                            <th class="px-2 py-2 text-center">Phone Number</th>
+                            <th class="px-2 py-2 text-center">Email Account</th>
+                            <th class="px-2 py-2 text-center">Product Purchased</th>
+                            <th class="px-2 py-2 text-center">Product Price</th>
+
+                            <th class="px-2 py-2 text-center">Date of Registrations</th>
+                           
+
                         </tr>
                     </thead>
+
+
                     <tbody>
-                        {% for invoice in invoices %}
+                        {% for i in customers %}
+    
                         <tr>
                             <td class="px-2 py-1 align-middle text-center">{{ forloop.counter }}</td>
-                            <td class="px-2 py-1 align-middle">{{ invoice.date_created|date:"Y-m-d h:i A" }}</td>
-                            <td class="px-2 py-1 text-center">{{ invoice.transaction }}</td>
-                            <td class="px-2 py-1 text-center">{{ invoice.customer }}</td>
-                            <td class="px-2 py-1 align-middle text-center">{{ invoice.item_count|floatformat:0|intcomma }}</td>
-                            <td class="px-2 py-1 align-middle text-center">{{ invoice.total|floatformat:2|intcomma }}</td>
-                            <td class="px-2 py-1 align-middle text-center">
+                            <td class="px-2 py-1 align-middle text-center">{{ i.full_name }}</td>
+
+                            <td class="px-2 py-1 align-middle text-center">{{ i.phone_number }}</td>
+                            <td class="px-2 py-1 align-middle text-center">{{ i.email }}</td>
+                            <td class="px-2 py-1 align-middle text-center">{{ i.product_purchased }}</td>
+                            <td class="px-2 py-1 align-middle text-center">{{ i.price }}</td>
 
 
-                                <!-- This place contain button for deleting transaction -->
-                                 
-                                <!-- <button class="btn btn-outline-danger btn-sm delete-data" type="button" data-id=" invoice.pk " title="Delete">
-                                    <i class="fa fa-trash"></i>
-                                </button> -->
+                            <td class="px-2 py-1 align-middle">
+                                <p class="m-0 text-center">{{ i.date_created }}</p>
                             </td>
+                           
+                        
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -58,11 +67,17 @@
 {% endblock pageContent %} {% block ScriptBlock %}
 <script>
     $(function() {
+        $('#add_new').click(function() {
+            uni_modal('<i class="fa fa-plus"></i> Add Product', '{% url "manage-product" %}', 'modal-md')
+        })
+        $('.edit-data').click(function() {
+            uni_modal('<i class="fa fa-edit"></i> Edit Product', '{% url "manage-product" %}/' + $(this).attr('data-id'), 'modal-md')
+        })
         $('.delete-data').click(function() {
-            _conf("Are you sure to delete this invoice permanently?", "delete_invoice", [$(this).attr('data-id')])
+            _conf("Are you sure to delete this Product permanently?", "delete_product", [$(this).attr('data-id')])
         })
 
-        $('#invoice-list').DataTable({
+        $('#product-list').DataTable({
             columnDefs: [{
                 orderable: false,
                 targets: 5
@@ -76,7 +91,7 @@
         })
     })
 
-    function delete_invoice($id) {
+    function delete_product($id) {
         start_loader();
         var _this = $(this)
         $('.err-msg').remove();
@@ -84,7 +99,7 @@
         el.addClass("alert alert-danger err-msg")
         el.hide()
         $.ajax({
-            url: '{% url "delete-invoice" %}',
+            url: '{% url "delete-product" %}',
             headers: {
                 'X-CSRFToken': "{{csrf_token}}"
             },

@@ -3,6 +3,8 @@
 <html lang="en">
 
 <head>
+    
+    </style>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> {% if page_title %}
@@ -34,10 +36,19 @@
     }
 </style> -->
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (window.innerWidth <= 768) {
+            alert("Mfumo huu Umetengenezwa maalumu kwa ajili ya kompyuta. Tafadhali Tumia Computer au Laptop");
+        }
+    });
+</script>
+
+
 </head>
 
-<body class="">
-
+<body class="" style="background-color:yellow">
+     
     {% block TopNavigation %} 
     
     
@@ -65,11 +76,11 @@
     </style>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow border-bottom">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow border-bottom" style="background-color: hsla(41, 100%, 50%, 0.904);">
         <div class="container">
             <!-- Navbar brand -->
             <a class="navbar-brand" target="_blank" href="{% url 'home-page' %}">
-                <img src="{{ MEDIA_URL }}/default/logo.png" height="16" alt="{{ MEDIA_URL }}" loading="lazy" style="margin-top: -3px;" />
+                <img src="{% static 'img/logo.png' %}" height="16" alt="{{ MEDIA_URL }}" loading="lazy" style="margin-top: -3px;" />
             </a>
             <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarExample01" aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
       <i class="fas fa-bars"></i>
@@ -78,22 +89,25 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="topNav">
                     {% if user.id %}
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{% url 'home-page' %}">Home</a>
+                        <a class="nav-link text-light" aria-current="page" href="{% url 'home-page' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{% url 'category-page' %}">Categories</a>
+                        <a class="nav-link  text-light" aria-current="page" href="{% url 'category-page' %}">Categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{% url 'product-page' %}">Products</a>
+                        <a class="nav-link  text-light" aria-current="page" href="{% url 'product-page' %}">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{% url 'inventory-page' %}">Stock</a>
+                        <a class="nav-link  text-light" aria-current="page" href="{% url 'inventory-page' %}">Stock</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{% url 'sales-page' %}">Sales</a>
+                        <a class="nav-link  text-light" aria-current="page" href="{% url 'sales-page' %}">Sales</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{% url 'invoice-page' %}">Transactions</a>
+                        <a class="nav-link  text-light" aria-current="page" href="{% url 'invoice-page' %}">Transactions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  text-light" aria-current="page" href="{% url 'payroll_list' %}">Payrol</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -101,20 +115,20 @@
                 <ul class="navbar-nav d-flex flex-row">
                     {% if user.id %} {% if user.profile.user_type == 1 %} {% endif %}
                     <li class="nav-item me-3 me-lg-0">
-                        <a class="nav-link" href="{% url 'profile' %}">
-                            <span class="me-1"><img src="{{ MEDIA_URL }}/default/default-avatar.png" alt="User Avatar" id="user-avatar" class="img-thumbnail rounded-circle"></span>Hi, {{ user.username }}
+                        <a class="nav-link  text-light" href="{% url 'profile' %}">
+                            <span class="me-1"><img src="{% static 'img/default-avatar.png' %}" alt="User Avatar" id="user-avatar" class="img-thumbnail rounded-circle"></span>Hi, {{ user.username }}
                         </a>
                         <!-- <a class="nav-link" href="{% url 'logout' %}">Logout</a> -->
                     </li>
                     <li class="nav-item me-3 me-lg-0">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        <a class="nav-link  text-light" href="{% url 'logout' %}">Logout</a>
                     </li>
                     {% else %}
                     <li class="nav-item me-3 me-lg-0">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        <a class="nav-link  text-light" href="{% url 'login' %}">Login</a>
                     </li>
                     {% comment %} <li class="nav-item me-3 me-lg-0">
-                        <a class="nav-link" href="{% url 'register-user' %}">Signup</a>
+                        <a class="nav-link  text-light" href="{% url 'register-user' %}">Signup</a>
                     </li> {% endcomment %}
                     {% endif %}
                     <!-- Icons -->
@@ -211,7 +225,7 @@
     </div>
 
     <!--Footer-->
-    <footer class="bg-light text-lg-start">
+    <footer class="text-lg-start" style="background-color: #ff7300">
         <!-- <div class="py-4 text-center">
             <a role="button" class="btn btn-primary btn-lg m-2" href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA" rel="nofollow" target="_blank">
         Learn Bootstrap 5
@@ -311,6 +325,16 @@
 
 
     <script src="{% static 'assets/select2/dist/js/select2.full.js' %}"></script>
+
+<!-- screen warning -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (window.innerWidth <= 768) {
+                document.getElementById("main-content").style.display = "none"; 
+                document.getElementById("mobile-warning").style.display = "flex";
+            }
+        });
+    </script>
 </body>
 
 </html>

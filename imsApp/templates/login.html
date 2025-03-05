@@ -12,13 +12,14 @@
 <div class="d-flex flex-column w-100 justify-content-center align-items-center">
     <div class="mb-4">
         <center>
-            <img src="{{ MEDIA_URL }}/default/logo.jpg" style="width: 440px; height: 150px;" alt="">
+            <img src="{% static 'img/logo.jpg' %}" style="width: 440px; height: 150px;" alt="">
+
         </center>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-        <div class="card card-default rounded-0 shadow">
+        <div class="card card-default rounded-0 shadow" style="background-color: rgb(14, 3, 61);">
             <div class="card-header">
-                <h4 class="card-title"><b>Login</b></h4>
+                <h4 class="card-title text-light"><b>Login</b></h4>
             </div>
             <div class="card-body">
                 <div class="container-fluid">
@@ -27,19 +28,19 @@
                         <div class="mdc-layout-grid">
                             <div class="mdc-layout-grid__inner">
                                 <div class="form-group mb-3">
-                                    <label for="username" class="control-label">Username</label>
+                                    <label for="username" class="control-label text-light">Username</label>
                                     <input type="text" class="form-control rounded-0" name="username" id="username" required="required">
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="password" class="control-label">Password</label>
+                                    <label for="password" class="control-label text-light">Password</label>
                                     <input type="password" class="form-control rounded-0" name="password" id="password" required="required">
                                 </div>
                                 <div class="form-group mb-3">
                                     <div class="d-flex w-100 justify-content-between align-items-center">
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 text-light">
                                             {% comment %} <a href="{% url 'register-user' %}">Signup</a> {% endcomment %}
                                         </div>
-                                        <button class="btn btn-sm rounded-0 btn-primary">
+                                        <button class="btn btn-sm rounded-0 btn-primary text-light">
                                                 Login
                                             </button>
                                     </div>

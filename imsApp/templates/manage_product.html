@@ -3,6 +3,15 @@
     <form action="POST" id="product-form" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="hidden" name="id" value="{{ product.id }}"> 
+        <div class="from-group">
+            <label for="pid" class="control-label">Category</label>
+            <select name="category" id="category" class="form-control rounded-0">
+                <option value="" selected="selected" disabled="disabled">Select Category</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}" {% if product.category.id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
         <div class="form-group mb-3 ">
             <label for="code" class="control-label">Product Code</label>
             <input type="text" class="form-control rounded-0" id="code" name="code" value="{{ product.code }}">
@@ -11,18 +20,20 @@
             <label for="name" class="control-label">Product Name</label>
             <input type="text" class="form-control rounded-0" id="name" name="name" value="{{ product.name }}">
         </div>
+        
+        
         <div class="form-group mb-3">
             <label for="description" class="control-label">Description</label>
             <textarea class="form-control rounded-0" name="description" id="description" rows="5">{{ product.description }}</textarea>
         </div>
         <div class="form-group mb-3 ">
             <label for="b_price" class="control-label">Buying Price</label>
-            <input type="number" step="any" class="form-control rounded-0 text-end" id="b_price" name="b_price" value="{{ product.b_price }}">
+            <input type="number" step="any" class="form-control rounded-0 text-end" id="buying_price" name="buying_price" value="{{ product.b_price }}">
         </div>
 
         <div class="form-group mb-3 ">
             <label for="s_price" class="control-label">Selling Price</label>
-            <input type="number" step="any" class="form-control rounded-0 text-end" id="s_price" name="s_price" value="{{ product.s_price }}">
+            <input type="number" step="any" class="form-control rounded-0 text-end" id="selling_price" name="selling_price" value="{{ product.s_price }}">
         </div>
         <div class="form-group mb-3 ">
             <label for="status" class="control-label">Status</label>

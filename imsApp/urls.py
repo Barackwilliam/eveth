@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
+from .views import add_payroll,payroll_list
+
 from . import views
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import RedirectView
@@ -40,7 +42,10 @@ urlpatterns = [
     path('debt',views.my_debts,name='my_debts'),
     path('employee',views.employee_list,name='employee_list'),
     path('expenditure',views.expenditure_list,name='expenditure_list'),
+    path("add-payroll/", add_payroll, name="add_payroll"),
+    path("payroll-list/", payroll_list, name="payroll_list"),
+    path("customer/", views.customer, name="customer"),
 
-    
+   
 
 ]

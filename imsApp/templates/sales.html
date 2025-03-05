@@ -1,12 +1,12 @@
 {% extends 'base.html' %} {% load humanize %} {% block pageContent %}
-<div class="container pt-3">
+<div class="container pt-3 bg-info">
     <div class="card card-default border shadow rounded-0">
-        <div class="card-header">
+        <div class="card-header bg-primary">
             <div class="w-100 d-flex justify-content-between">
-                <h5 class="fw-bolder card-title">Sales Transaction</h5>
+                <h5 class="fw-bolder card-title text-light">Sales Transaction</h5>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="background-color: yellow;">
             <div class="conteiner-fluid">
                 <form action="" id="sale-form">
                     {% csrf_token %}
@@ -70,7 +70,7 @@
                 </form>
             </div>
         </div>
-        <div class="card-footer py-1 text-end">
+        <div class="card-footer py-1 text-end bg-primary">
             <button class="btn btn-primary bg-gradient px-3 rounded-0" form="sale-form"><i class="fa fa-save"></i> Save</button>
         </div>
     </div>

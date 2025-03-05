@@ -1,11 +1,15 @@
+
+
+
+
 {% extends 'base.html' %} {% load humanize %} {% block pageContent %}
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="card card-default rounded-0 shadow ">
         <div class="card-header bg-primary">
             <div class="d-flex w-100 align-items-center justify-content-between">
-                <h4 class="card-title fw-bold text-light">Product Details</h4>
+                <h4 class="card-title fw-bold text-light">Payrol Details</h4>
                 <div class="tools">
-                    <button type="button" class="btn btn-primary rounded-0 bg-gradient btn-sm" id='add_new'><i class="fa fa-plus"></i> Add New</button>
+                    <!-- <button type="button" class="btn btn-primary rounded-0 bg-gradient btn-sm" id='add_new'><i class="fa fa-plus"></i> Add New</button> -->
                 </div>
             </div>
         </div>
@@ -24,44 +28,45 @@
                     <thead>
                         <tr class="bg-gradient bg-primary bg-opacity-50 text-light">
                             <th class="px-2 py-2 text-center">#</th>
-                            <th class="px-2 py-2 text-center">Date/Time</th>
-                            <th class="px-2 py-2 text-center">Category</th>
-                            <th class="px-2 py-2 text-center">Name</th>
-                            <th class="px-2 py-2 text-center">Description</th>
-                            <th class="px-2 py-2 text-center">Buying Price</th>
-                            <th class="px-2 py-2 text-center">Sellin Price</th>
-                            <th class="px-2 py-2 text-center">Status</th>
-                            <th class="px-2 py-2 text-center">Action</th>
+                            <th class="px-2 py-2 text-center">Employee Name</t>
+                            <th class="px-2 py-2 text-center">Reg Number</th>
+                            <th class="px-2 py-2 text-center">Designation</th>
+                            <th class="px-2 py-2 text-center">Duty Station</th>
+                            <th class="px-2 py-2 text-center">Working Days</th>
+                            <th class="px-2 py-2 text-center">Basic Salary</th>
+                            <th class="px-2 py-2 text-center">Net Salary</th>
+                            <th class="px-2 py-2 text-center">Penalty Charges</th>
+                            <th class="px-2 py-2 text-center">Mid Month Advance</th>
+                            <th class="px-2 py-2 text-center">Fair Salary</th>
+
+
                         </tr>
                     </thead>
+
+
                     <tbody>
-                        {% for product in products %}
+                        {% for payroll in payrolls %}
+    
                         <tr>
                             <td class="px-2 py-1 align-middle text-center">{{ forloop.counter }}</td>
-                            <td class="px-2 py-1 align-middle">{{ product.date_created|date:"Y-m-d h:i A" }}</td>
-                            <td class="px-2 py-1 align-middle text-center">{{ product.category }}</td>
-                            <td class="px-2 py-1 align-middle text-center">{{ product }}</td>
+                            <td class="px-2 py-1 align-middle text-center">{{ payroll.employee }}</td>
+
+                            <td class="px-2 py-1 align-middle text-center">{{ payroll.reg_no }}</td>
+                            <td class="px-2 py-1 align-middle text-center">{{ payroll.designation }}</td>
 
                             <td class="px-2 py-1 align-middle">
-                                <p class="m-0 text-center">{{ product.description }}</p>
+                                <p class="m-0 text-center">{{ payroll.duty_station }}</p>
                             </td>
                            
-                            <td class="px-2 py-1 align-middle text-center">{{ product.buying_price|intcomma }}</td>
-                            <td class="px-2 py-1 align-middle text-center">{{ product.selling_price|intcomma }}</td>
+                            <td class="px-2 py-1 align-middle text-center">{{ payroll.working_days }}</td>
+                            <td class="px-2 py-1 align-middle text-center">{{ payroll.basic_salary }}</td>
+                            <td class="px-2 py-1 align-middle text-center">{{ payroll.net_salary }}</td>
+                            <td class="px-2 py-1 align-middle text-center">{{ payroll.penalty_charges }}</td>
+                            <td class="px-2 py-1 align-middle text-center">{{ payroll.mid_month_advance }}</td>
+                            <td class="px-2 py-1 align-middle text-center">{{ payroll.fair_salary }}</td>
 
-                            <td class="px-1 py-1 align-middle text-center">
-                                {% if product.status == '1' %}
-                                <span class="badge bg-primary bg-gradient rounded-pill px-2">Active</span> {% else %}
-                                <span class="badge bg-secondary bg-gradient rounded-pill px-2">Inactive</span> {% endif %}
-                            </td>
-                            <td class="px-2 py-1 align-middle text-center">
-                                <a class="btn btn-outline-primary btn-sm edit-data" href="javascript:void(0)" data-id="{{ product.pk }}" title="Edit">
-                                    <i class="fa fa-edit"></i>
-                                </a>
-                                <button class="btn btn-outline-danger btn-sm delete-data" type="button" data-id="{{ product.pk }}" title="Delete">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
+                            
+                        
                         </tr>
                         {% endfor %}
                     </tbody>

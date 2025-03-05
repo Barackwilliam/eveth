@@ -4,15 +4,15 @@
 {% extends 'base.html' %} {% block pageContent %}
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="card card-default rounded-0 shadow ">
-        <div class="card-header">
+        <div class="card-header bg-primary">
             <div class="d-flex w-100 align-items-center justify-content-between">
-                <h4 class="card-title fw-bold">Expenses</h4>
+                <h4 class="card-title fw-bold text-light">Expenses</h4>
                 <!-- <div class="tools">
                     <button type="button" class="btn btn-primary rounded-0 bg-gradient btn-sm" id='add_new'><i class="fa fa-plus"></i> Add New</button>
                 </div> -->
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="background-color: yellow;">
             <div class="container-fluid">
                 <table class="table table-bordered" id="category-list">
                     <colgroup>
@@ -28,7 +28,9 @@
                             <th class="px-2 py-2 text-center">#</th>
                             <th class="px-2 py-2 text-center">Description</th>
                             <th class="px-2 py-2 text-center">Category</th>
-                            <th class="px-2 py-2 text-center">Amount (TZS)</th>
+                            <th class="px-2 py-2 text-center">Income Amount (TZS)</th>
+                            <th class="px-2 py-2 text-center">Paid Client (TZS)</th>
+
                             <th class="px-2 py-2 text-center">Date</th>
                             <th class="px-2 py-2 text-center">Others</th>
 
@@ -43,7 +45,10 @@
                                 <p class="m-0 text-truncate">{{ expense.get_category_display }}</p>
                             </td>
                             <td class="px-2 py-1 align-middle">
-                                <p class="m-0 text-center">{{ expense.amount }}</p>
+                                <p class="m-0 text-center">{{ expense.income_amount }}</p>
+                            </td>
+                            <td class="px-2 py-1 align-middle">
+                                <p class="m-0 text-center">{{ expense.paid_client }}</p>
                             </td>
                             <td class="px-2 py-1 align-middle">
                                 <p class="m-0 text-truncate">{{ expense.date_spent }}</p>

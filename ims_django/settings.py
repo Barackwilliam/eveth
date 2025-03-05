@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Usalama: Tumia environment variables kwa siri
 SECRET_KEY = 'django-insecure-rehm$-g0&_c-nzb54b7xp-pcnehad63vd4b-4zlwh=o839g1f@'
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ["*"]
 
 # Application definition
@@ -70,12 +70,6 @@ DATABASES = {
         'PORT': '5432',  # Port ya PostgreSQL (default ni 5432)
     }
 }
-
-# user=postgres.vzgdeuzqqnviehljepxt 
-# password=[YOUR-PASSWORD] 
-# host=aws-0-eu-central-1.pooler.supabase.com
-# port=5432
-# dbname=postgres
 
 
 

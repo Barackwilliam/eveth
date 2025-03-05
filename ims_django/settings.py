@@ -64,12 +64,18 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',  # Jina la database
-        'USER': 'postgres.knebptcpkrvlpnnesylc',  # Jina la mtumiaji
+        'USER': 'postgres.vzgdeuzqqnviehljepxt',  # Jina la mtumiaji
         'PASSWORD': 'NyumbaChap',  # Badilisha kwa password yako halisi
         'HOST': 'aws-0-eu-central-1.pooler.supabase.com',  # URL ya server ya database
         'PORT': '5432',  # Port ya PostgreSQL (default ni 5432)
     }
 }
+
+# user=postgres.vzgdeuzqqnviehljepxt 
+# password=[YOUR-PASSWORD] 
+# host=aws-0-eu-central-1.pooler.supabase.com
+# port=5432
+# dbname=postgres
 
 
 

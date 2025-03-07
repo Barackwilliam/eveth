@@ -25,6 +25,10 @@ class Category(models.Model):
 class Invoice(models.Model):
     transaction = models.CharField(max_length = 250)
     customer = models.CharField(max_length=300)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)  # Add this field
+    email = models.EmailField(null=True, blank=True)
+
+
     total = models.FloatField(default= 0)
     date_created = models.DateTimeField(default=timezone.now)
     date_updated = models.DateTimeField(auto_now=True)
@@ -139,16 +143,17 @@ class Product(models.Model):
                 stockOut = int(stockOut) + int(stock.quantity)
         available  = stockIn - stockOut
         return available
-
 class Stock(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.FloatField(default=0)
-    type = models.CharField(max_length=2,choices=(('1','Stock-in'),('2','Stock-Out')), default = 1)
+    type = models.CharField(max_length=2, choices=(('1', 'Stock-in'), ('2', 'Stock-Out')), default='1')
     date_created = models.DateTimeField(default=timezone.now)
     date_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.product.code + ' - ' + self.product.name
+        product_code = self.product.code if self.product and self.product.code else "NoCode"
+        product_name = self.product.name if self.product and self.product.name else "NoName"
+        return f"{product_code} - {product_name}"
 
 class Invoice_Item(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
@@ -185,7 +190,7 @@ from django.db import models
 from django.utils import timezone
 
 class Payroll(models.Model):
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    employee = models.CharField(max_length=255)
     reg_no = models.CharField(max_length=50, unique=True)  # Namba ya Usajili
     designation = models.CharField(max_length=255)  # Cheo
     duty_station = models.CharField(max_length=255)  # Kituo cha Kazi
@@ -201,7 +206,7 @@ class Payroll(models.Model):
 
     
     def __str__(self):
-        return f"{self.employee.first_name} {self.employee.last_name} - {self.net_salary}"
+        return self.employee
 
     
 class Customer(models.Model):

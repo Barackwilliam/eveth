@@ -40,7 +40,7 @@ class StockAdmin(admin.ModelAdmin):
 
 @admin.register(Invoice)
 class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ('transaction', 'customer', 'total', 'date_created')
+    list_display = ('transaction', 'customer', 'phone_number','email','total', 'date_created')
     search_fields = ('transaction', 'customer')
 
 @admin.register(Invoice_Item)

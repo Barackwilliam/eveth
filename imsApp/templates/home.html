@@ -164,11 +164,11 @@
                 <div class="card-body" style="background-color: yellow;">
                     <div class="d-flex w-100">
                         <div class="col-8 pe-2">
-                            <div class="summary-title fs-5 border-bottom">Month Report</div>
-                            <a href=""> <div class="summary-count text-end fw-bolder mt-3 px-4" style="color: red;">coming soon</div></a>
+                            <div class="summary-title fs-5 border-bottom">Sales Report</div>
+                            <a href="{% url 'generate_pdf' %}"> <div class="summary-count text-end fw-bolder mt-3 px-4" style="color: red;">Click file</div></a>
                         </div>
                         <div class="col-4">
-                            <a href=""> <div class="summary-icon p-3 rounded border text-center bg-gradient bg-info">
+                            <a href="{% url 'generate_pdf' %}"> <div class="summary-icon p-3 rounded border text-center bg-gradient bg-info">
                                 <i class="fa fa-file-invoice fs-2"></i>
                             </div></a>
                         </div>

@@ -46,6 +46,9 @@ urlpatterns = [
     path("payroll-list/", payroll_list, name="payroll_list"),
     path("customer/", views.customer, name="customer"),
 
+    path("invoice_pdf/", views.generate_pdf, name="generate_pdf"),
+
+  
    
 
 ]

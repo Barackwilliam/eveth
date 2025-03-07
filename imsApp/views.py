@@ -5,6 +5,16 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.decorators import login_required
 from ims_django.settings import MEDIA_ROOT, MEDIA_URL
 import json
+
+
+
+from django.template.loader import get_template
+from django.http import HttpResponse
+from io import BytesIO
+from xhtml2pdf import pisa
+from .models import Invoice
+
+
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -415,13 +425,60 @@ def get_product(request,pk = None):
     return HttpResponse(json.dumps(resp),content_type="application/json")
 
 
+# def save_sales(request):
+#     resp = {'status':'failed', 'msg' : ''}
+#     id = 2
+#     if request.method == 'POST':
+#         pids = request.POST.getlist('pid[]')
+#         invoice_form = SaveInvoice(request.POST)
+#         if invoice_form.is_valid():
+#             invoice_form.save()
+#             invoice = Invoice.objects.last()
+#             for pid in pids:
+#                 data = {
+#                     'invoice':invoice.id,
+#                     'product':pid,
+#                     'quantity':request.POST['quantity['+str(pid)+']'],
+#                     'price':request.POST['price['+str(pid)+']'],
+#                 }
+#                 print(data)
+#                 ii_form = SaveInvoiceItem(data=data)
+#                 # print(ii_form.data)
+#                 if ii_form.is_valid():
+#                     ii_form.save()
+#                 else:
+#                     for fields in ii_form:
+#                         for error in fields.errors:
+#                             resp['msg'] += str(error + "<br>")
+#                     break
+#             messages.success(request, "Sale Transaction has been saved.")
+#             resp['status'] = 'success'
+#             # invoice.delete()
+#         else:
+#             for fields in invoice_form:
+#                 for error in fields.errors:
+#                     resp['msg'] += str(error + "<br>")
+
+#     return HttpResponse(json.dumps(resp),content_type="application/json")
+
+
+
+
+
 def save_sales(request):
     resp = {'status':'failed', 'msg' : ''}
-    id = 2
     if request.method == 'POST':
         pids = request.POST.getlist('pid[]')
         invoice_form = SaveInvoice(request.POST)
         if invoice_form.is_valid():
+            # Add the phone number here when saving
+            phone_number = request.POST.get('phone_number')
+            invoice_form.instance.phone_number = phone_number  # Set the phone number
+            email = request.POST.get('email')
+            invoice_form.instance.email = email  # Set the phone number
+
+
+
             invoice_form.save()
             invoice = Invoice.objects.last()
             for pid in pids:
@@ -431,9 +488,7 @@ def save_sales(request):
                     'quantity':request.POST['quantity['+str(pid)+']'],
                     'price':request.POST['price['+str(pid)+']'],
                 }
-                print(data)
                 ii_form = SaveInvoiceItem(data=data)
-                # print(ii_form.data)
                 if ii_form.is_valid():
                     ii_form.save()
                 else:
@@ -443,7 +498,6 @@ def save_sales(request):
                     break
             messages.success(request, "Sale Transaction has been saved.")
             resp['status'] = 'success'
-            # invoice.delete()
         else:
             for fields in invoice_form:
                 for error in fields.errors:
@@ -451,13 +505,73 @@ def save_sales(request):
 
     return HttpResponse(json.dumps(resp),content_type="application/json")
 
+
+# @login_required
+# def invoices(request):
+#     invoice =  Invoice.objects.all()
+#     context['page_title'] = 'Invoices'
+#     context['invoices'] = invoice
+
+#     return render(request, 'invoices.html', context)
+
+
+# @login_required
+# def invoices(request):
+#     invoice = Invoice.objects.all()
+#     context = {
+#         'page_title': 'Invoices',
+#         'invoices': invoice
+#     }
+
+#     # Save the context in session if you're calling generate_pdf
+#     if 'download_pdf' in request.GET:
+#         request.session['pdf_context'] = context  # Store the context in session
+#         return generate_pdf(request)  # Call generate_pdf without passing context directly
+
+#     return render(request, 'invoices.html', context)
+
+
+
+
 @login_required
 def invoices(request):
-    invoice =  Invoice.objects.all()
-    context['page_title'] = 'Invoices'
-    context['invoices'] = invoice
+    invoices = Invoice.objects.all()  # Get all invoices from the database
+    context = {
+        'page_title': 'Invoices',
+        'invoices': invoices  # Pass invoices data to the context
+    }
+
+    if 'download_pdf' in request.GET:  # If download PDF is requested
+        request.session['pdf_context'] = context  # Store the context in session
+        return generate_pdf(request)  # Call generate_pdf to generate the PDF
 
     return render(request, 'invoices.html', context)
+
+def generate_pdf(request):
+    invoices = Invoice.objects.all()  # Fetch all invoices
+    if not invoices:
+        return HttpResponse("No invoices found", status=404)  # Return a message if no invoices
+    
+    # Prepare context data for the PDF
+    context = {
+        'page_title': 'Transaction Records',
+        'invoices': invoices,
+    }
+    
+    template = get_template('invoices_pdf.html')  # Load the PDF template
+    html = template.render(context)  # Render the template with context data
+    
+    # Generate the PDF from the HTML content
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="eveth_transaction_report.pdf"'
+    
+    pisa_status = pisa.CreatePDF(html, dest=response)  # Generate PDF
+    if pisa_status.err:
+        return HttpResponse('We had some errors generating your PDF', status=400)
+    
+    return response
+
+
 
 @login_required
 def delete_invoice(request):

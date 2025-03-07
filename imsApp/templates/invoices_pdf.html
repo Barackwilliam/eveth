@@ -1,0 +1,145 @@
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
+        }
+
+        .container {
+            width: 90%;
+            margin: 30px auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .table-box {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            table-layout: fixed; /* Fixed layout for all columns */
+        }
+
+        .table-box th, .table-box td {
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #ddd; /* Clear borders between cells */
+            box-sizing: border-box;
+            white-space: normal; /* Allow wrapping of text inside cells */
+            word-wrap: break-word; /* Break long words to prevent overflow */
+            overflow-wrap: break-word; /* Same as word-wrap */
+        }
+
+        .table-box th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        .table-box td {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .table-box tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-btn {
+            color: #fff;
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background-color: #45a049;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            padding: 10px 15px;
+            margin: 0 5px;
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .pagination a:hover {
+            background-color: #45a049;
+        }
+
+        .pagination .active {
+            background-color: #45a049;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+
+        {% if invoices %}
+        <table class="table-box">
+            <thead>
+                <tr>
+                    <th>Transaction Date</th>
+                    <th>Transaction ID</th>
+                    <th>Customer Name</th>
+                    <th>Phone Number</th>
+                    
+                    <th>Items</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in invoices %}
+                <tr>
+                    <td>{{ invoice.date_created|date:"d M Y" }}</td>
+                    <td>{{ invoice.transaction }}</td>
+                    <td>{{ invoice.customer }}</td>
+                    <td>{{ invoice.phone_number }}</td>
+                    <td>{{ invoice.item_count|floatformat:0|intcomma }}</td>
+                    <td>{{ invoice.total|floatformat:2|intcomma }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+        <p class="no-data">No invoices found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

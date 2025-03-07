@@ -24,9 +24,11 @@
                             <th class="px-2 py-2 text-center">Date/Time</th>
                             <th class="px-2 py-2 text-center">Transaction Code</th>
                             <th class="px-2 py-2 text-center">Customer</th>
+                            <th class="px-2 py-2 text-center">Phone Number</th>
+                            <th class="px-2 py-2 text-center">Email</th>
                             <th class="px-2 py-2 text-center">Total Item</th>
                             <th class="px-2 py-2 text-center">Total Amount</th>
-                            <th class="px-2 py-2 text-center">Action</th>
+                            <th class="px-2 py-2 text-center" style="background-color: rgb(255, 17, 0)"><a href="{% url 'generate_pdf' %}" style="color: rgb(255, 251, 0);">Download Record</a></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,6 +38,8 @@
                             <td class="px-2 py-1 align-middle">{{ invoice.date_created|date:"Y-m-d h:i A" }}</td>
                             <td class="px-2 py-1 text-center">{{ invoice.transaction }}</td>
                             <td class="px-2 py-1 text-center">{{ invoice.customer }}</td>
+                            <td class="px-2 py-1 text-center">{{ invoice.phone_number }}</td>
+                            <td class="px-2 py-1 text-center">{{ invoice.email }}</td>
                             <td class="px-2 py-1 align-middle text-center">{{ invoice.item_count|floatformat:0|intcomma }}</td>
                             <td class="px-2 py-1 align-middle text-center">{{ invoice.total|floatformat:2|intcomma }}</td>
                             <td class="px-2 py-1 align-middle text-center">

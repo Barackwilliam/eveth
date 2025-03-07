@@ -168,27 +168,6 @@ class SaveStock(forms.ModelForm):
         except:
             raise forms.ValidationError("Product is not valid")
 
-class SaveInvoice(forms.ModelForm):
-    transaction = forms.CharField(max_length=100)
-    customer = forms.CharField(max_length=250)
-    total = forms.FloatField()
-
-    class Meta:
-        model = Invoice
-        fields = ('transaction', 'customer', 'total')
-
-    def clean_transaction(self):
-        pref = datetime.today().strftime('%Y%m%d')
-        transaction= ''
-        code = str(1).zfill(4)
-        while True:
-            invoice = Invoice.objects.filter(transaction=str(pref + code)).count()
-            if invoice > 0:
-                code = str(int(code) + 1).zfill(4)
-            else:
-                transaction = str(pref + code)
-                break
-        return transaction
 
 class SaveInvoiceItem(forms.ModelForm):
     invoice = forms.CharField(max_length=30)
@@ -233,3 +212,33 @@ class PayrollForm(forms.ModelForm):
     class Meta:
         model = Payroll
         fields = '__all__'
+
+
+
+
+class SaveInvoice(forms.ModelForm):
+    transaction = forms.CharField(max_length=100)
+    customer = forms.CharField(max_length=250)
+    email = forms.EmailField(required=False)
+    phone_number = forms.CharField(max_length=15, required=False)  # Add this line
+    total = forms.FloatField()
+
+    class Meta:
+        model = Invoice
+        fields = ('transaction', 'customer', 'email','phone_number', 'total')  # Include phone_number in fields
+
+    def clean_transaction(self):
+        pref = datetime.today().strftime('%Y%m%d')
+        transaction= ''
+        code = str(1).zfill(4)
+        while True:
+            invoice = Invoice.objects.filter(transaction=str(pref + code)).count()
+            if invoice > 0:
+                code = str(int(code) + 1).zfill(4)
+            else:
+                transaction = str(pref + code)
+                break
+        return transaction
+
+
+
